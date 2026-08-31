@@ -1,0 +1,39 @@
+height = [ 1.7, 1.62, 1.52, 1.85, 1.91, 1.42]
+weight = [72, 64, 84, 80, 72, 70]
+n1 = len(height)
+n2 = len(weight)
+s = 0
+for i in height:
+    s = s+i
+mean_ht = s/n1  #mean height 
+print(f"Mean_of_height:{mean_ht}") 
+X=0
+for i in height:
+    X = X + (i - mean_ht)**2 #summation of X^2
+print(X)
+var_ht = X/(n1-1)  #variance of height
+print(f"variance of height:{var_ht}")
+#finding mean weight
+sw = 0 
+for i in weight:
+    sw += i 
+mean_wt = sw/n2
+print(f"Mean of weight:{mean_wt}")
+# summation of square of Y
+Y = 0 
+for i in weight:
+    Y += (i-mean_wt)**2
+#variance of weight
+var_wt = Y/(n2-1)
+print(f"Variance of weight:{var_wt}")
+t = 0 
+for i in range(n1):
+    t = t + (height[i] - mean_ht)*(weight[i] - mean_wt)
+cov= t/(n1-1)
+print(f"Covariance of height and weight:{cov}")
+cov_mat = [[var_ht, cov],
+             [cov, var_wt]]
+
+print("covariance matrix")
+for row in cov_mat:
+    print(row)
