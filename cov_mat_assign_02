@@ -1,0 +1,52 @@
+#  DATA 
+x = [12.1, 13.2, 15.6, 17.2, 18.8, 10.3, 11.7, 16.4]
+y = [48, 59, 32, 18, 41, 32, 31, 30]
+z = [101, 171, 112, 132, 140, 112, 151, 96]
+n = 8
+
+#MEANS 
+sum_x = 0.0; sum_y = 0.0; sum_z = 0.0
+for i in range(n):
+    sum_x += x[i]
+    sum_y += y[i]
+    sum_z += z[i]
+
+mean_x = sum_x / n
+mean_y = sum_y / n
+mean_z = sum_z / n
+
+# COVARIANCE MATRIX
+sum_sq_x = 0.0; sum_sq_y = 0.0; sum_sq_z = 0.0
+sum_prod_xy = 0.0; sum_prod_xz = 0.0; sum_prod_yz = 0.0
+
+for i in range(n):
+    dx = x[i] - mean_x
+    dy = y[i] - mean_y
+    dz = z[i] - mean_z
+    
+    sum_sq_x += dx * dx
+    sum_sq_y += dy * dy
+    sum_sq_z += dz * dz
+    sum_prod_xy += dx * dy
+    sum_prod_xz += dx * dz
+    sum_prod_yz += dy * dz
+
+df = n - 1  # Degrees of freedom for sample variance
+var_x = sum_sq_x / df
+var_y = sum_sq_y / df
+var_z = sum_sq_z / df
+
+cov_xy = sum_prod_xy / df
+cov_xz = sum_prod_xz / df
+cov_yz = sum_prod_yz / df
+
+# Covariance Matrix
+C = [
+    [var_x, cov_xy, cov_xz],
+    [cov_xy, var_y, cov_yz],
+    [cov_xz, cov_yz, var_z]
+]
+print("COVARIANCE MATRIX ")
+for row in C:
+    print(f"[{row[0]:.4f}, {row[1]:.4f}, {row[2]:.4f}]")
+print()
