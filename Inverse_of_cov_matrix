@@ -1,0 +1,43 @@
+# Covariance Matrix from the previous calculation:
+C = [
+    [9.0670, -10.0768, -0.7268],
+    [-10.0768, 159.1250, 123.0536],
+    [-0.7268, 123.0536, 684.6964]
+]
+
+
+#  CALCULATE THE DETERMINANT OF C
+det_C = (C[0][0] * ((C[1][1] * C[2][2]) - (C[1][2] * C[2][1]))) \
+      - (C[0][1] * ((C[1][0] * C[2][2]) - (C[1][2] * C[2][0]))) \
+      + (C[0][2] * ((C[1][0] * C[2][1]) - (C[1][1] * C[2][0])))
+
+print(f"Determinant of Covariance Matrix: {det_C:.4f}\n")
+
+# Check for invertibility (Matrix must be non-singular)
+if det_C == 0.0:
+    print("The matrix is singular and cannot be inverted.")
+else:
+    #CALCULATE THE COFACTOR 
+    #We explicitly calculate the 2x2 minor determinants with alternating signs (+ - +)
+    adj_00 = (C[1][1] * C[2][2]) - (C[1][2] * C[2][1])
+    adj_01 = -((C[1][0] * C[2][2]) - (C[1][2] * C[2][0]))
+    adj_02 = (C[1][0] * C[2][1]) - (C[1][1] * C[2][0])
+
+    adj_10 = -((C[0][1] * C[2][2]) - (C[0][2] * C[2][1]))
+    adj_11 = (C[0][0] * C[2][2]) - (C[0][2] * C[2][0])
+    adj_12 = -((C[0][0] * C[2][1]) - (C[0][1] * C[2][0]))
+
+    adj_20 = (C[0][1] * C[1][2]) - (C[0][2] * C[1][1])
+    adj_21 = -((C[0][0] * C[1][2]) - (C[0][2] * C[1][0]))
+    adj_22 = (C[0][0] * C[1][1]) - (C[0][1] * C[1][0])
+
+    #DIVIDE BY DETERMINANT TO GET INVERSE
+    C_inverse = [
+        [adj_00 / det_C, adj_01 / det_C, adj_02 / det_C],
+        [adj_10 / det_C, adj_11 / det_C, adj_12 / det_C],
+        [adj_20 / det_C, adj_21 / det_C, adj_22 / det_C]
+    ]
+
+    print("INVERSE OF COVARIANCE MATRIX")
+    for row in C_inverse:
+        print(f"[{row[0]:.6f}, {row[1]:.6f}, {row[2]:.6f}]")
