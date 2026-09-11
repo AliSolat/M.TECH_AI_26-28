@@ -1,0 +1,60 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv(r"C:\Users\jacka\Downloads\simple_housing_data.csv")
+data.shape
+data.head()
+
+plt.scatter(data.Square_Feet, data.Price_USD)
+plt.show()
+
+n = len(data_set)
+def loss_func(m, b, data_set):
+    loss = 0
+    # finiding mse
+    for i in range(n):
+        x = data_set.iloc[i].Square_Feet
+        y = data_set.iloc[i].Price_USD
+        loss += (y - (m*x + b))**2
+    return loss/float(len(data_set))
+loss_func(0, 0, data)
+
+def gradient_descent(m_current, b_current, data_set, learn_rate):
+   
+    #length: no. of data_points in dataset
+    n = len(data_set)
+    m_gradient = 0
+    b_gradient = 0
+
+    #calculating gradient for entire dataset
+    for i in range(n):
+        x = data_set.iloc[i].Square_Feet
+        y = data_set.iloc[i].Price_USD
+
+        m_gradient += -(2/n) * x * (y - (m_current * x + b_current))
+        b_gradient += -(2/n) * (y - (m_current * x + b_current))
+#----updating value of m and b
+
+    m_updated = m_current - learn_rate * (m_gradient)
+    b_updated = b_current - learn_rate * (b_gradient)
+
+    return m_updated, b_updated
+
+m = m_initial
+b = b_initial
+learn_rate = 0.0000001
+epochs = int(input("Enter the number of epochs:"))
+data_set = data
+for i in range(epochs):
+    '''if(i % 10 == 0):
+        print("Epoch: ",i)'''
+    m, b = gradient_descent(m, b, data_set, learn_rate)
+
+print(f"optimized slope:{m: .3f}")
+print(f"optimized intercept:{b: .3f}")
+
+
+plt.scatter(data.Square_Feet, data.Price_USD, color = 'black')
+plt.plot(list(range(800, 3500)), [m*x + b for x in range(800, 3500)], color = "green")
+
+#print(data.describe())
